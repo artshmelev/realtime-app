@@ -1,0 +1,3 @@
+[submodule "websockets-ssh-example/static/ace-builds"]
+	path = websockets-ssh-example/static/ace-builds
+	url = https://github.com/ajaxorg/ace-builds.git
