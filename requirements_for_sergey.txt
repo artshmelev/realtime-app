@@ -1,0 +1,9 @@
+Install:
+    tornado
+    sockjs-tornado
+    paramiko
+
+See /sockjs-example/static folder:
+    bootstrap
+    jquery
+    sockjs
