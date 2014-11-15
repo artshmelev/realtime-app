@@ -1,5 +1,7 @@
 var sock = new SockJS("http://localhost:8888/echo");
 
+var array0 = [];
+
 sock.onopen = function() {
     var msg = {
         action: 'connecting'
@@ -15,24 +17,29 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
-		$("#enter").show();
-
-		$("#main-content").html("<h2>Game is starting</h2>");
+        $("#enter").show();
+		//$("#main-content").html("<h2>Game is starting</h2>");
 		var msg = { action: 'ready' };
 
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
-		$("#main-content").html("<h2>Please, wait partner</h2>");
+		//$("#main-content").html("<h2>Please, wait partner</h2>");
 		
 	} else if (data.action === "tasking") {
-		$("#main-content").html("<h2>Tasking</h2>");
-		var score0 = data.score0,
+            var score0 = data.score0,
 			score1 = data.score1;
-		
-		for (i = 0; i < data.tasks0.length; i++) {
-			$("#main-content").append("<h2>" + data.tasks0[i] + "</h2>");
-		}
+        
+        var game = document.getElementById("gameField"); 
+        var canvas = game.getContext("2d");
+        game.width = window.innerWidth;  
+        game.height = 0.8*window.innerHeight;
+
+        canvas.lineWidth = 5; 
+        canvas.strokeStyle = "black";           
+        canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
+        canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
+
 		
         var game = document.getElementById("gameField"); 
         var canvas = game.getContext("2d");
@@ -52,7 +59,7 @@ sock.onmessage = function(e) {
 	}
 };
 
-sock.onclose = function() {
+sock.onclose = function() { alert(array0[i]);
     var msg = {
         action: 'disconnecting'
     }
@@ -63,10 +70,12 @@ var canvas = game.getContext("2d");
 game.width = window.innerWidth;  
 game.height = 0.8*window.innerHeight;
 
-canvas.lineWidth = 5;
-canvas.strokeStyle = "black";
+canvas.lineWidth = 5; 
+canvas.strokeStyle = "black";           
 canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
-canvas.strokeRect(window.innerWidth*0.47+30, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
+canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
+
+
 
 $("button").click(function() {
 	var msg = { action: 'playgame' };
@@ -80,3 +89,7 @@ $("#ans").keypress(function(e) {
 		this.value = "";
 	}
 });
+
+
+
+

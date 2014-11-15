@@ -10,11 +10,9 @@ body {
 canvas {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
-
-canvas {
-    margin: 0;
-    padding: 0;
+#ans {
     text-align: center;
 }
 
@@ -23,6 +21,40 @@ canvas {
     height:100px; 
     text-align: center;  
     font-size: 40pt; 
+}
+
+#label1 {
+    margin: auto;
+    width: 200pt;
+    height: 50pt;
+    text-align: center;
+    padding-right:10px;
+    font-size: 30pt;    
+}
+
+#label2 {
+    margin: auto;
+    width: 200pt;
+    height: 50pt;
+    text-align: center;
+    padding-right:10px;
+    font-size: 30pt;
+}
+
+#label3 {
+    margin: auto;
+    width: 200pt;
+    height: 50pt;
+    text-align: center;
+    font-size: 30pt;
+}
+
+#label4 {
+    margin: auto;
+    width: 200pt;
+    height: 50pt;
+    text-align: center;
+    font-size: 30pt;
 }
 
 html {
