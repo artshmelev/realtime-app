@@ -29,6 +29,7 @@ class EchoConnection(SockJSConnection):
         
         if data['action'] == 'connecting':
             self.send(json.dumps({'action': 'startpage'}))
+            print '!!!'
         elif data['action'] == 'disconnecting':
             pass
         '''

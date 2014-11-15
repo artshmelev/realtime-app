@@ -9,15 +9,15 @@ sock.onopen = function() {
 };
 
 sock.onmessage = function(e) {
-	var data = JSON.parse(e);
+	var data = JSON.parse(e.data);
 	
 	if (data.action === "startpage") {
-		//$("main-content").text = "Hello";
-		alert("msg");
+		$("#main-content").text("Hello");
+		//alert("msg");
 	}
     /*switch (data.action) {
     	case "startpage":
-    		//$("main-content").text = "Hello";
+    		$("#main-content").text("Hello");
     		break;
         case "waiting":
 	        //рисуем ожидание        
@@ -37,7 +37,7 @@ sock.onmessage = function(e) {
 	    case "result":
 	        //добавляем счет, или нет
 	        //если набрал счет - то, заканчиваем игру
-	        break;    */
+	        break;*/
 };
 
 sock.onclose = function() {
