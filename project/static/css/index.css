@@ -15,15 +15,16 @@ canvas {
 canvas {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
-#enter
-{
-width:200px;
-margin:auto; 
-height:25px;   
+#enter {
+    margin:auto; 
+    height:100px; 
+    text-align: center;  
+    font-size: 40pt; 
 }
 
 html {
-overflow: hidden;
+    overflow: hidden;
 }

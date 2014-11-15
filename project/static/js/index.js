@@ -21,6 +21,7 @@ sock.onmessage = function(e) {
 		$("#play-btn").hide();
 		$("#main-content").html("<h2>Game is starting</h2>");
 		var msg = { action: 'ready' };
+
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
@@ -32,6 +33,7 @@ sock.onmessage = function(e) {
 			score1 = data.score1;
 		
 		for (i = 0; i < data.tasks0.length; i++) {
+		    
 			$("#main-content").append("<h2>" + data.tasks0[i] + "</h2>");
 		}
 		
