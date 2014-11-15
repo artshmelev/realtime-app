@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PhystechBattle</title>
+    <style>
+     html { overflow:  hidden; }
+    </style>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/index.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -15,36 +18,24 @@
     <![endif]-->
 </head>
 <body> 
+   
     <canvas class="box" id="gameField"></canvas>
-        <script>
-       /*     var game = document.getElementById("gameField"); 
+       <script>
+         var game = document.getElementById("gameField"); 
             var canvas = game.getContext("2d");
-            game.width = screen.width * 0.45 
-            game.height = screen.height * 0.8
+            game.width = screen.width;  
+            game.height = screen.height;
             
             canvas.lineWidth = 5; // толщина линии
      
-            canvas.strokeStyle = "red";
-            canvas.strokeRect(20, screen.height*0.11, window.innerWidth*0.45-15, window.innerHeight*0.8-10);
-            canvas.strokeRect(window.innerWidth*0.45+15, window.innerHeight*0.11, window.innerWidth, window.innerHeight*0.8-10);
-          //  canvas.strokeRect(20, 20, screen.height, screen.height * 0.8)
-            //canvas.stroke()
-            /*
-            canvas.beginPath();
-            canvas.moveTo(game.width + 15, screen.height*0.11);
-            canvas.lineTo(screen.width-20, screen.height*0.11);
-            canvas.quadraticCurveTo(screen.width, screen.height*0.11, screen.width, screen.height*0.11+10);
-            canvas.lineTo(game.width, game.height);
-            canvas.quadraticCurveTo(game.width, game.height, game.width+15, game.height);
-            canvas.lineTo(game.width+15, game.height);
-            canvas.quadraticCurveTo(game.width+5, game.height, game.width+5, game.height-10);
-            canvas.lineTo(game.width+5, screen.height*0.11+10);
-            canvas.quadraticCurveTo(game.width+5, screen.height*0.11, game.width+5, screen.height*0.11);
-            */
-            
-                        
-        </script>
+            canvas.strokeStyle = "white";
        
+            
+            canvas.strokeRect(20, window.innerHeight*0.11, window.innerWidth*0.47, window.innerHeight*0.8-10);
+            
+            canvas.strokeRect(window.innerWidth*0.47+30, window.innerHeight*0.11, window.innerWidth*0.47, window.innerHeight*0.8-10);
+          
+       </script>
     <div id="main-content"></div>
     <div class="hid-obj" id="play-btn"><button class="btn btn-primary btn-lrg">Play</button></div>
     <input type="text" id="ans">
