@@ -1,8 +1,6 @@
 var sock = new SockJS("http://localhost:8888/echo");
 
 sock.onopen = function() {
-//	console.log("open");
-//	sock.send("test_message");
     var msg = {
         action: 'connecting';
     }
@@ -10,9 +8,7 @@ sock.onopen = function() {
 };
 
 sock.onmessage = function(e) {
-//	console.log("message", e.data);
-//	$("#gameField").text(e.data);
-	var data = JSON.parse(e)
+	var data = JSON.parse(e);
 	
     switch (data.action) {
         case "waiting":
@@ -21,9 +17,9 @@ sock.onmessage = function(e) {
 	    case "startgame":
 	        //рисуем начало
 	        var msg = {
-                action: 'ready'
+                action: 'ready';
             }
-	        sock.send(JSON.stringify(msg))
+	        sock.send(JSON.stringify(msg));
 	        break;    
 	    case "tasking":
 	        //отрисовываем задание
@@ -38,8 +34,6 @@ sock.onmessage = function(e) {
 
 sock.onclose = function() {
     var msg = {
-        action: 'disconnetcing'
+        action: 'disconnetcing';
     }
-    
-	console.log("close");
 };
