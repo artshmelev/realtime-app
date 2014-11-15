@@ -28,7 +28,10 @@ class GamePool(object):
             return (player, partner)
         
     def remove(self, player):
-        self.players.remove(player)
+        try:
+            self.players.remove(player)
+        except ValueError:
+            pass
         try:
             self.waiting_players.remove(player)
         except ValueError:

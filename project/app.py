@@ -19,31 +19,38 @@ class IndexHandler(web.RequestHandler):
 class EchoConnection(SockJSConnection):
     clients = set()
     
-    def on_open(self):
+    def on_open(self, info):
         print 'open sock'
-        clients.add(self)
+        self.clients.add(self)
+        
         
     def on_message(self, msg):
         data = json.loads(msg)
         
         if data['action'] == 'connecting':
-            pass
+            self.send(json.dumps({'action': 'startpage'}))
         elif data['action'] == 'disconnecting':
             pass
+        '''
         elif data['action'] == 'playgame':
-            pass
+            p1, p2 = pool.append(Player(self))
+            if p1 == None:
+                self.send(json.dumps({'action': 'waiting'}))
+            else:
+                self.send(json.dumps({'action': 'startgame'}))
+                p2.channel.send(json.dumps({'action': 'startgame'}))
+                
         elif data['action'] == 'ready':
             pass
         elif data['action'] == 'answer':
             pass
         elif data['action'] == 'gameover':
-            pass 
-        self.send(msg)
+            pass '''
         
     def on_close(self):
         print 'close sock'
-        clients.remove(self)
-        pool.remove(Player(self))
+        self.clients.remove(self)
+        #pool.remove(Player(self))
 
 
 if __name__ == '__main__':
