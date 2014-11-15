@@ -4,9 +4,9 @@ sock.onopen = function() {
 //	console.log("open");
 //	sock.send("test_message");
     var msg = {
-        action: 'connecting'
+        action: 'connecting';
     }
-    sock.send(JSON.stringify(msg))
+    sock.send(JSON.stringify(msg));
 };
 
 sock.onmessage = function(e) {
