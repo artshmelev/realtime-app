@@ -23,16 +23,13 @@ class EchoConnection(SockJSConnection):
         print 'open sock'
         self.clients.add(self)
         
-        
     def on_message(self, msg):
         data = json.loads(msg)
         
         if data['action'] == 'connecting':
             self.send(json.dumps({'action': 'startpage'}))
-            print '!!!'
         elif data['action'] == 'disconnecting':
             pass
-        '''
         elif data['action'] == 'playgame':
             p1, p2 = pool.append(Player(self))
             if p1 == None:
@@ -46,12 +43,12 @@ class EchoConnection(SockJSConnection):
         elif data['action'] == 'answer':
             pass
         elif data['action'] == 'gameover':
-            pass '''
+            pass
         
     def on_close(self):
         print 'close sock'
         self.clients.remove(self)
-        #pool.remove(Player(self))
+        pool.remove(Player(self))
 
 
 if __name__ == '__main__':

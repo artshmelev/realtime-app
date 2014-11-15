@@ -12,36 +12,30 @@ sock.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	
 	if (data.action === "startpage") {
-		$("#main-content").text("Hello");
-		//alert("msg");
+		//$("#main-content").html("<button class='btn btn-primary'>Hello</button>");
+		$("#play-btn").show();
+		alert("startpage");
+	} else if (data.action === "startgame") {
+		alert("Start Game");
+		$("#play-btn").hide();
+	} else if (data.action === "waiting") {
+		alert("waiting");
+	} else if (data.action === "tasking") {
+		alert("tasking");
+	} else if (data.action === "result") {
+		alert("result");
 	}
-    /*switch (data.action) {
-    	case "startpage":
-    		$("#main-content").text("Hello");
-    		break;
-        case "waiting":
-	        //рисуем ожидание        
-            break;	
-	    case "startgame":
-	        //рисуем начало
-	        var msg = {
-                action: 'ready'
-            }
-	        sock.send(JSON.stringify(msg));
-	        break;    
-	    case "tasking":
-	        //отрисовываем задание
-	        
-	        //посылаем answer
-	        break;
-	    case "result":
-	        //добавляем счет, или нет
-	        //если набрал счет - то, заканчиваем игру
-	        break;*/
 };
 
 sock.onclose = function() {
     var msg = {
         action: 'disconnetcing'
     }
+    //sock.send(JSON.stringify(msg));
 };
+
+$("button").click(function() {
+	var msg = { action: 'playgame' };
+	alert("Clicked");
+	sock.send(JSON.stringify(msg));
+});
