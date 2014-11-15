@@ -15,13 +15,28 @@
 </head>
 <body>
    
-    <canvas id="gameField" style="background-color: green"></canvas>
+    <canvas id="gameField"></canvas>
         <script>
-            var game = document.getElementById("gameField"), ctx = game.getContext('2d'),
-            rtx = game.Context('2d');
-            game.width = screen.width * 0.5 
+            var game = document.getElementById("gameField"); 
+            canvas = game.getContext("2d");
+            game.width = screen.width * 0.45 
             game.height = screen.height * 0.8
-            ctx.fillRect(0, 0.1 * screen.height, game.width, game.height);
+            canvas.lineWidth = 6; // толщина линии
+            canvas.beginPath();
+            canvas.moveTo(20, 10);
+            canvas.lineTo(game.width-15, 10);
+            canvas.quadraticCurveTo(game.width, 10, game.width, 20);
+            canvas.lineTo(game.width, game.height);
+            canvas.quadraticCurveTo(game.width, game.height, game.width-15, game.height);
+            canvas.lineTo(20, game.height);
+            canvas.quadraticCurveTo(10, game.height, 10, game.height-10);
+            canvas.lineTo(10, 20);
+            canvas.quadraticCurveTo(10, 10, 20, 10);
+            canvas.stroke()
+      //  ctx = game.getContext('2d');
+          //  game.width = screen.width * 0.5 
+           // game.height = screen.height * 0.8
+           // ctx.fillRect(0, 0.1 * screen.height, game.width, game.height);
         //    rtx.fillRect(screen.width + 5, 0.1 * screen.height, game.width, game.height)
         </script>
        
