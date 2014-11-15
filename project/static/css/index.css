@@ -6,4 +6,18 @@ body {
     background-image: url("/static/images/2.jpg");
 }    
 
+canvas {
+    margin: 0;
+    padding: 0;
+}
 
+#enter
+{
+width:200px;
+margin:auto; 
+height:25px;   
+}
+
+html {
+overflow: hidden;
+}

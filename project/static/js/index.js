@@ -8,6 +8,8 @@ sock.onopen = function() {
     sock.send(JSON.stringify(msg));
 };
 
+
+
 sock.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	
@@ -17,7 +19,7 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
-		("#main-content").html("<div>Game is starting</div>");
+		$("#main-content").html("<div>Game is starting</div>");
 		var msg = { action: 'ready'};
 		sock.send(JSON.stringify(msg));
 		
@@ -26,7 +28,7 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "tasking") {
 		$("#main-content").html("<div>Tasking</div>");
-		var score = 
+		var score = 0;
 		
 		var msg = { action: 'ready'};
 		sock.send(JSON.stringify(msg));
