@@ -28,8 +28,10 @@ class EchoConnection(SockJSConnection):
         
         if data['action'] == 'connecting':
             self.send(json.dumps({'action': 'startpage'}))
+            
         elif data['action'] == 'disconnecting':
             pass
+        
         elif data['action'] == 'playgame':
             p1, p2 = pool.append(Player(self))
             if p1 == None:
@@ -41,18 +43,29 @@ class EchoConnection(SockJSConnection):
                                             'side': 'right'}))
                 
         elif data['action'] == 'ready':
+            g = pool.find_game(pool.find_player(self))
+            
+            if len(g.tasks0) < 3:
+                g.tasks0.append(Task())
+            if len(g.tasks1) < 3:
+                g.tasks1.append(Task())
+                
             self.send(json.dumps({'action': 'tasking',
-                                  'score_left': 10,
-                                  'score_right': 20}))
+                                  'score0': g.score[0],
+                                  'score1': g.score[1],
+                                  'tasks0': [t.text for t in g.tasks0],
+                                  'tasks1': [t.text for t in g.tasks1]}))
+            
         elif data['action'] == 'answer':
             pass
+        
         elif data['action'] == 'gameover':
-            pool.remove(Player(self))
+            pool.remove(pool.find_player(self))
             self.send(json.dumps({'action': 'startpage'}))
         
     def on_close(self):
         print 'close sock'
-        pool.remove(Player(self))
+        pool.remove(pool.find_player(self))
         self.clients.remove(self)
 
 

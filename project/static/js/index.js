@@ -19,22 +19,27 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
-		$("#main-content").html("<div>Game is starting</div>");
-		var msg = { action: 'ready'};
+		$("#main-content").html("<h2>Game is starting</h2>");
+		var msg = { action: 'ready' };
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
-		$("#main-content").html("<div>Please, wait partner</div>");
+		$("#main-content").html("<h2>Please, wait partner</h2>");
 		
 	} else if (data.action === "tasking") {
-		$("#main-content").html("<div>Tasking</div>");
-		var score = 0;
+		$("#main-content").html("<h2>Tasking</h2>");
+		var score0 = data.score0,
+			score1 = data.score1;
 		
-		var msg = { action: 'ready'};
+		for (i = 0; i < data.tasks0.length; i++) {
+			$("#main-content").append("<h2>" + data.tasks0[i] + "</h2>");
+		}
+		
+		var msg = { action: 'ready' };
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "result") {
-		$("#main-content").html("<div>Result</div>");
+		$("#main-content").html("<h2>Result</h2>");
 	}
 };
 
