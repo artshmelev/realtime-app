@@ -6,14 +6,47 @@ from game_structs import *
 
 settings = {
     'static_path': os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                'static')
+                                'static'),
+    'cookie_secret': 'bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=',
+    'login_url': '/login',
 }
 
 pool = GamePool()
 
-class IndexHandler(web.RequestHandler):
+class BaseHandler(web.RequestHandler):
+    def get_current_user(self):
+        return self.get_secure_cookie("user")
+    
+
+class IndexHandler(BaseHandler):
+    @web.authenticated
     def get(self):
-        self.render('index.html')
+        self.render('index.html', user=self.current_user)
+        
+        
+class LoginHandler(BaseHandler):
+    def get(self):
+        self.render('auth.html')
+        
+    def post(self):
+        username = self.get_argument('username')
+        password = self.get_argument('password')
+        if username == 'test' and password == 'test':
+            self.set_secure_cookie('user', username)
+            self.redirect('/')
+        else:
+            wrong = self.get_secure_cookie('wrong')
+            if wrong == False or wrong == None:
+                wrong = 0
+            self.set_secure_cookie('wrong', str(int(wrong) + 1))
+            self.write('Wrong username/password. Try again.')
+            
+        
+        
+class LogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie('user')
+        self.redirect(self.get_argument('next', '/'))    
         
 
 class EchoConnection(SockJSConnection):
@@ -88,7 +121,9 @@ if __name__ == '__main__':
     EchoRouter = SockJSRouter(EchoConnection, '/echo')
     
     app = web.Application(
-        [(r'/', IndexHandler)] + EchoRouter.urls,
+        [(r'/', IndexHandler),
+         (r'/login', LoginHandler),
+         (r'/logout', LogoutHandler)] + EchoRouter.urls,
     **settings)
     app.listen(8888)
     ioloop.IOLoop.instance().start()

@@ -19,10 +19,10 @@ canvas {
 }
 
 #enter {
-    width: 200px;
-    margin: auto; 
-    height: 25px;
-    text-align: center;
+    margin:auto; 
+    height:100px; 
+    text-align: center;  
+    font-size: 40pt; 
 }
 
 html {
