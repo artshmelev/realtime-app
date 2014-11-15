@@ -35,20 +35,25 @@ class EchoConnection(SockJSConnection):
             if p1 == None:
                 self.send(json.dumps({'action': 'waiting'}))
             else:
-                self.send(json.dumps({'action': 'startgame'}))
-                p2.channel.send(json.dumps({'action': 'startgame'}))
+                self.send(json.dumps({'action': 'startgame',
+                                      'side': 'left'}))
+                p2.channel.send(json.dumps({'action': 'startgame',
+                                            'side': 'right'}))
                 
         elif data['action'] == 'ready':
-            pass
+            self.send(json.dumps({'action': 'tasking',
+                                  'score_left': 10,
+                                  'score_right': 20}))
         elif data['action'] == 'answer':
             pass
         elif data['action'] == 'gameover':
-            pass
+            pool.remove(Player(self))
+            self.send(json.dumps({'action': 'startpage'}))
         
     def on_close(self):
         print 'close sock'
-        self.clients.remove(self)
         pool.remove(Player(self))
+        self.clients.remove(self)
 
 
 if __name__ == '__main__':

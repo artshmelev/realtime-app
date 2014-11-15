@@ -1,3 +1,4 @@
+import random
 
 class Player(object):
     def __init__(self, channel, name='test', game=None):
@@ -49,6 +50,27 @@ class GamePool(object):
     
     
 class Task(object):
-    def __init__(self, difficulty):
+    def __init__(self, difficulty=1):
         self.difficulty = difficulty
+        if difficulty == 1:
+            self.text, self.answer = self.gen_simple()
+            
+    def gen_simple(self):
+        a1 = random.randint(0, 50)
+        a2 = self.get_rand_sign()
+        a3 = random.randint(0, 50)
+        if a2 == '+':
+            ans = a1 + a3
+        elif a2 == '-':
+            ans = a1 - a3
+        return (ans, str(a1) + a2 + str(a3))
+        
+    
+    def get_rand_sign(self):
+        r = random.randint(0, 1)
+        if r == 0:
+            return '+'
+        else:
+            return '-'
+        
     
