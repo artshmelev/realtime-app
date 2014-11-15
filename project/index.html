@@ -15,29 +15,34 @@
     <![endif]-->
 </head>
 <body> 
-    <canvas id="gameField"></canvas>
+    <canvas class="box" id="gameField"></canvas>
         <script>
-            var game = document.getElementById("gameField"); 
-            canvas = game.getContext("2d");
+       /*     var game = document.getElementById("gameField"); 
+            var canvas = game.getContext("2d");
             game.width = screen.width * 0.45 
             game.height = screen.height * 0.8
-            canvas.lineWidth = 6; // толщина линии
+            
+            canvas.lineWidth = 5; // толщина линии
+     
+            canvas.strokeStyle = "red";
+            canvas.strokeRect(20, screen.height*0.11, window.innerWidth*0.45-15, window.innerHeight*0.8-10);
+            canvas.strokeRect(window.innerWidth*0.45+15, window.innerHeight*0.11, window.innerWidth, window.innerHeight*0.8-10);
+          //  canvas.strokeRect(20, 20, screen.height, screen.height * 0.8)
+            //canvas.stroke()
+            /*
             canvas.beginPath();
-            canvas.moveTo(20, screen.height*0.11);
-            canvas.lineTo(game.width-15, screen.height*0.11);
-            canvas.quadraticCurveTo(game.width, screen.height*0.11, game.width, screen.height*0.11+10);
+            canvas.moveTo(game.width + 15, screen.height*0.11);
+            canvas.lineTo(screen.width-20, screen.height*0.11);
+            canvas.quadraticCurveTo(screen.width, screen.height*0.11, screen.width, screen.height*0.11+10);
             canvas.lineTo(game.width, game.height);
-            canvas.quadraticCurveTo(game.width, game.height, game.width-15, game.height);
-            canvas.lineTo(20, game.height);
-            canvas.quadraticCurveTo(10, game.height, 10, game.height-10);
-            canvas.lineTo(10, screen.height*0.11+10);
-            canvas.quadraticCurveTo(10, screen.height*0.11, 20, screen.height*0.11);
-            canvas.stroke()
-      //  ctx = game.getContext('2d');
-          //  game.width = screen.width * 0.5 
-           // game.height = screen.height * 0.8
-           // ctx.fillRect(0, 0.1 * screen.height, game.width, game.height);
-        //    rtx.fillRect(screen.width + 5, 0.1 * screen.height, game.width, game.height)
+            canvas.quadraticCurveTo(game.width, game.height, game.width+15, game.height);
+            canvas.lineTo(game.width+15, game.height);
+            canvas.quadraticCurveTo(game.width+5, game.height, game.width+5, game.height-10);
+            canvas.lineTo(game.width+5, screen.height*0.11+10);
+            canvas.quadraticCurveTo(game.width+5, screen.height*0.11, game.width+5, screen.height*0.11);
+            */
+            
+                        
         </script>
        
     <div id="main-content"></div>

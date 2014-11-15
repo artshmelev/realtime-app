@@ -1,7 +1,7 @@
 var sock = new SockJS("http://localhost:8888/echo");
 
 sock.onopen = function() {
-	alert("open");
+//	alert("open");
     var msg = {
         action: 'connecting'
     }
