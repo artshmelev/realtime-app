@@ -4,7 +4,7 @@ from tornado import ioloop, web, websocket
 from ssh_worker import SSHWorker
 
 host = 'calcnoqueue.vdi.mipt.ru'
-user = 'sbk2014**' # username
+user = '' # username
 secret = '' # password
 port = 22
 
