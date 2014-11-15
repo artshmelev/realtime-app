@@ -68,9 +68,9 @@ class Task(object):
         a2 = self.get_rand_sign()
         a3 = random.randint(0, 50)
         if a2 == '+':
-            ans = a1 + a3
+            ans = str(a1 + a3)
         elif a2 == '-':
-            ans = a1 - a3
+            ans = str(a1 - a3)
         return (str(a1) + a2 + str(a3), ans)
         
     

@@ -19,12 +19,21 @@ canvas {
 }
 
 #enter {
-    margin:auto; 
-    height:100px; 
-    text-align: center;  
-    font-size: 40pt; 
+    width: 200px;
+    margin: auto; 
+    height: 25px;
+    text-align: center;
 }
 
 html {
     overflow: hidden;
+}
+
+.btn-xlarge {
+    padding: 18px 28px;
+    font-size: 24px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
 }

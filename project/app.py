@@ -57,7 +57,22 @@ class EchoConnection(SockJSConnection):
                                   'tasks1': [t.text for t in g.tasks1]}))
             
         elif data['action'] == 'answer':
-            pass
+            player = pool.find_player(self)
+            g = pool.find_game(player)
+            
+            if player == g.ps[0]:
+                for t in g.tasks0:
+                    if t.answer == data['answer']:
+                        self.send(json.dumps({'action': 'result',
+                                              'result': 'ok'}))
+                        g.tasks0.remove(t)
+            
+            elif player == g.ps[1]:
+                for t in g.tasks1:
+                    if t.answer == data['answer']:
+                        self.send(json.dumps({'action': 'result',
+                                              'result': 'ok'}))
+                        g.tasks1.remove(t)
         
         elif data['action'] == 'gameover':
             pool.remove(pool.find_player(self))

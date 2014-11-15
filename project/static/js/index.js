@@ -8,8 +8,6 @@ sock.onopen = function() {
     sock.send(JSON.stringify(msg));
 };
 
-
-
 sock.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	
@@ -21,7 +19,6 @@ sock.onmessage = function(e) {
 		$("#play-btn").hide();
 		$("#main-content").html("<h2>Game is starting</h2>");
 		var msg = { action: 'ready' };
-
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
@@ -41,7 +38,8 @@ sock.onmessage = function(e) {
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "result") {
-		$("#main-content").html("<h2>Result</h2>");
+		//$("#main-content").html("<h2>Result</h2>");
+		$("#main-content").append("<h2>" + data.result + "</h2>");
 	}
 };
 
@@ -56,4 +54,12 @@ $("button").click(function() {
 	var msg = { action: 'playgame' };
 	//alert("Clicked");
 	sock.send(JSON.stringify(msg));
+});
+
+$("#ans").keypress(function(e) {
+	if (e.which == 13) {
+		var msg = { action: 'answer', answer: this.value };
+		sock.send(JSON.stringify(msg));
+		this.value = "";
+	}
 });
