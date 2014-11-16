@@ -1,7 +1,7 @@
 import random
 
 class Player(object):
-    def __init__(self, channel, name='test'):
+    def __init__(self, channel, name):
         self.channel = channel
         self.name = name
         

@@ -23,10 +23,15 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
-
         $("#enter").show();
+        if (data.side == "left") {
+        	$("#username1").text(data.partner);
+        } else {
+        	$("#username1").text($("#username0").text());
+        	$("#username0").text(data.partner);
+        }
+        
 		var msg = { action: 'ready' };
-
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
@@ -107,7 +112,10 @@ canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.in
 
 $("#play-btn").click(function() {
 	if (!($("#play-btn").attr("disabled") !== undefined)) {
-		var msg = { action: 'playgame' };
+		var msg = {
+			action: 'playgame',
+			username: $("#username0").text()
+		};
 		sock.send(JSON.stringify(msg));
 		
 		$("#play-btn").attr("disabled", true);

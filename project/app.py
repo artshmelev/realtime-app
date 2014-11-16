@@ -29,12 +29,13 @@ class LoginHandler(BaseHandler):
         self.render('auth.html')
         
     def post(self):
+        type = self.get_argument('type')
         username = self.get_argument('username')
         password = self.get_argument('password')
-        #if username == 'test' and password == 'test' or \
-            #username == 'test1' and password == 'test1':
-        self.set_secure_cookie('user', username)
-        self.redirect('/')
+        if type == 'form' and username == 'test' and password == 'test' or \
+           type == 'vk':
+            self.set_secure_cookie('user', username)
+            self.redirect('/')
         '''else:
             wrong = self.get_secure_cookie('wrong')
             if wrong == False or wrong == None:
@@ -61,7 +62,7 @@ class EchoConnection(SockJSConnection):
         data = json.loads(msg)
         
         if data['action'] == 'connecting':
-            self.send(json.dumps({'action': 'startpage'}))
+            self.send(json.dumps({ 'action': 'startpage' }))
             
             
         elif data['action'] == 'disconnecting':
@@ -69,20 +70,22 @@ class EchoConnection(SockJSConnection):
         
         
         elif data['action'] == 'playgame':
-            p1, p2 = pool.append(Player(self))
+            p1, p2 = pool.append(Player(self, data['username']))
             if p1 == None:
-                self.send(json.dumps({'action': 'waiting'}))
+                self.send(json.dumps({ 'action': 'waiting' }))
             else:
-                self.send(json.dumps({'action': 'startgame',
-                                      'side': 'left'}))
-                p2.channel.send(json.dumps({'action': 'startgame',
-                                            'side': 'right'}))
+                self.send(json.dumps({ 'action': 'startgame',
+                                       'side': 'left',
+                                       'partner': p2.name }))
+                p2.channel.send(json.dumps({ 'action': 'startgame',
+                                             'side': 'right',
+                                             'partner': p1.name }))
                 
                 
         elif data['action'] == 'ready':
             g = pool.find_game(pool.find_player(self))
             if g == None:
-                self.send(json.dumps({'action': 'startpage'}))
+                self.send(json.dumps({ 'action': 'startpage' }))
                 return
             
             if len(g.tasks0) < 3:
@@ -90,15 +93,15 @@ class EchoConnection(SockJSConnection):
             if len(g.tasks1) < 3:
                 g.tasks1.append(Task())
                 
-            self.send(json.dumps({'action': 'tasking',
-                                  'score0': g.score[0],
-                                  'score1': g.score[1],
-                                  'tasks0': [t.text for t in g.tasks0],
-                                  'tasks1': [t.text for t in g.tasks1],
-                                  'xs0':    [t.x for t in g.tasks0],
-                                  'ys0':    [t.y for t in g.tasks0],
-                                  'xs1':    [t.x for t in g.tasks1],
-                                  'ys1':    [t.y for t in g.tasks1],}))
+            self.send(json.dumps({ 'action': 'tasking',
+                                   'score0': g.score[0],
+                                   'score1': g.score[1],
+                                   'tasks0': [t.text for t in g.tasks0],
+                                   'tasks1': [t.text for t in g.tasks1],
+                                   'xs0':    [t.x for t in g.tasks0],
+                                   'ys0':    [t.y for t in g.tasks0],
+                                   'xs1':    [t.x for t in g.tasks1],
+                                   'ys1':    [t.y for t in g.tasks1] }))
             
             
         elif data['action'] == 'answer':
@@ -109,16 +112,16 @@ class EchoConnection(SockJSConnection):
                 for t in g.tasks0:
                     if t.answer == data['answer']:
                         g.score[0] += 10
-                        self.send(json.dumps({'action': 'result',
-                                              'result': 'ok'}))
+                        self.send(json.dumps({ 'action': 'result',
+                                               'result': 'ok' }))
                         g.tasks0.remove(t)
             
             elif player == g.ps[1]:
                 for t in g.tasks1:
                     if t.answer == data['answer']:
                         g.score[1] += 10
-                        self.send(json.dumps({'action': 'result',
-                                              'result': 'ok'}))
+                        self.send(json.dumps({ 'action': 'result',
+                                               'result': 'ok' }))
                         g.tasks1.remove(t)
         
         
@@ -131,7 +134,7 @@ class EchoConnection(SockJSConnection):
         player = pool.find_player(self)
         partner = pool.find_partner(player)
         if (partner != None):
-            partner.channel.send(json.dumps({'action': 'startpage'}))
+            partner.channel.send(json.dumps({ 'action': 'startpage' }))
         pool.remove(player)
         self.clients.remove(self)
 
