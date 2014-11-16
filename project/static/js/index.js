@@ -20,8 +20,11 @@ sock.onmessage = function(e) {
 		if ($("#play-btn").attr("disabled") !== undefined) {
 			$("#play-btn").removeAttr("disabled");
 		}
+		//$("#special-content").html("<table class='table table-bordered table-hover'>" +
+        						 //"<tr><td>adsadad</td><td>sadfgdsgds</td></tr></table>");
 		
 	} else if (data.action === "startgame") {
+		$("#special-content").html("");
 		$("#play-btn").hide();
         $("#enter").show();
         if (data.side == "left") {
@@ -35,10 +38,12 @@ sock.onmessage = function(e) {
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
-		
+		$("#special-content").html("<div class='alert alert-warning'>" +
+								   "Please, wait. Searching your opponent." +
+								   "</div>");
 	} else if (data.action === "tasking") {
-		$("#score0").text(data.score0);
-		$("#score1").text(data.score1);
+		$("#score0").text("SCORE: " + data.score0.toString());
+		$("#score1").text("SCORE: " + data.score1.toString());
 
         var game = document.getElementById("gameField"); 
         var canvas = game.getContext("2d");
@@ -77,10 +82,16 @@ sock.onmessage = function(e) {
 	    }
 		
 		if (data.score0 > 50 || data.score1 > 50) {
+			if (data.score0 >= data.score1) {
+				var left = 1;
+			} else {
+				var left = 0;
+			}
 			var msg = {
 				action: 'gameover',
 				score0: data.score0,
-				score1: data.score1
+				score1: data.score1,
+				win_left: 	left
 			}
 			sock.send(JSON.stringify(msg));
 		} else {
@@ -90,6 +101,18 @@ sock.onmessage = function(e) {
 		
 		
 	} else if (data.action === "result") {
+	} else if (data.action === "displayscore") {
+		if (data.win == 1) {
+			$("#special-content").html("<div class='alert alert-success'>" +
+									  "Well done! You won: " + data.score +
+									  "</div>");
+		} else {
+			$("#special-content").html("<div class='alert alert-danger'>" +
+									  "Oh snap! You lost: " + data.score +
+									  "</div>");
+		}
+		var msg = { action: 'restart' };
+		sock.send(JSON.stringify(msg));
 	}
 };
 
