@@ -61,6 +61,8 @@ class GamePool(object):
     
     def find_partner(self, player):
         g = self.find_game(player)
+        if g == None:
+            return None
         if g.ps[1] != None and g.ps[0] == player:
             return g.ps[1]
         elif g.ps[0] != None and g.ps[1] == player:
@@ -69,12 +71,13 @@ class GamePool(object):
             return None
             
     
-    
 class Task(object):
     def __init__(self, difficulty=1):
         self.difficulty = difficulty
         if difficulty == 1:
             self.text, self.answer = self.gen_simple()
+        self.x = random.randint(1, 1366)
+        self.y = random.randint(1, 768)
     
     def gen_simple(self):
         a1 = random.randint(0, 50)
@@ -93,8 +96,4 @@ class Task(object):
             return '+'
         else:
             return '-'
-        
-    def get_rand_coord(self):
-        pass
-        
     

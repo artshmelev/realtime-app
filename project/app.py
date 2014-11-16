@@ -63,8 +63,10 @@ class EchoConnection(SockJSConnection):
         if data['action'] == 'connecting':
             self.send(json.dumps({'action': 'startpage'}))
             
+            
         elif data['action'] == 'disconnecting':
             pass
+        
         
         elif data['action'] == 'playgame':
             p1, p2 = pool.append(Player(self))
@@ -75,6 +77,7 @@ class EchoConnection(SockJSConnection):
                                       'side': 'left'}))
                 p2.channel.send(json.dumps({'action': 'startgame',
                                             'side': 'right'}))
+                
                 
         elif data['action'] == 'ready':
             g = pool.find_game(pool.find_player(self))
@@ -91,7 +94,12 @@ class EchoConnection(SockJSConnection):
                                   'score0': g.score[0],
                                   'score1': g.score[1],
                                   'tasks0': [t.text for t in g.tasks0],
-                                  'tasks1': [t.text for t in g.tasks1]}))
+                                  'tasks1': [t.text for t in g.tasks1],
+                                  'xs0':    [t.x for t in g.tasks0],
+                                  'ys0':    [t.y for t in g.tasks0],
+                                  'xs1':    [t.x for t in g.tasks1],
+                                  'ys1':    [t.y for t in g.tasks1],}))
+            
             
         elif data['action'] == 'answer':
             player = pool.find_player(self)
@@ -100,6 +108,7 @@ class EchoConnection(SockJSConnection):
             if player == g.ps[0]:
                 for t in g.tasks0:
                     if t.answer == data['answer']:
+                        g.score[0] += 10
                         self.send(json.dumps({'action': 'result',
                                               'result': 'ok'}))
                         g.tasks0.remove(t)
@@ -107,9 +116,11 @@ class EchoConnection(SockJSConnection):
             elif player == g.ps[1]:
                 for t in g.tasks1:
                     if t.answer == data['answer']:
+                        g.score[1] += 10
                         self.send(json.dumps({'action': 'result',
                                               'result': 'ok'}))
                         g.tasks1.remove(t)
+        
         
         elif data['action'] == 'gameover':
             pool.remove(pool.find_player(self))

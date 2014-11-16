@@ -31,8 +31,8 @@ sock.onmessage = function(e) {
 	} else if (data.action === "waiting") {
 		
 	} else if (data.action === "tasking") {
-		var score0 = data.score0,
-			score1 = data.score1;
+		$("#score0").text(data.score0);
+		$("#score1").text(data.score1);
 
 		for (i = 0; i < data.tasks0.length; i++) {
             var game = document.getElementById("gameField"); 
@@ -46,10 +46,10 @@ sock.onmessage = function(e) {
             canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
             canvas.font = "bold 24px vendra";
             
-            var x = Math.floor(Math.random() * ((window.innerWidth*0.47-50) - 70 + 1)) + 70;
-            var y = Math.floor(Math.random() * (game.height*0.9-10 - 50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) + 50;
-            var z = Math.floor(Math.random() * ((game.width-70) - (game.width-0.47*window.innerWidth+50) + 1)) + (game.width-0.47*window.innerWidth + 50);
-            var t = Math.floor(Math.random() * (game.height*0.9-10 -50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) +50;
+            var x = Math.floor(data.xs0[i] / 1366 * ((window.innerWidth*0.47-50) - 70 + 1)) + 70;
+            var y = Math.floor(data.ys0[i] / 768 * (game.height*0.9-10 - 50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) + 50;
+            var z = Math.floor(data.xs1[i] / 1366 * ((game.width-70) - (game.width-0.47*window.innerWidth+50) + 1)) + (game.width-0.47*window.innerWidth + 50);
+            var t = Math.floor(data.ys1[i] / 768 * (game.height*0.9-10 -50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) +50;
            
             canvas.fillStyle = "aqua";
             canvas.arc(x, y, 50, 0, 50);
@@ -60,8 +60,17 @@ sock.onmessage = function(e) {
             canvas.fillText(data.tasks1[i], z-25, t+5);
 	    }
 		
-		var msg = { action: 'ready' };
-		sock.send(JSON.stringify(msg));
+		if (data.score0 > 50 || data.score1 > 50) {
+			var msg = {
+				action: 'gameover',
+				score0: data.score0,
+				score1: data.score1
+			}
+			sock.send(JSON.stringify(msg));
+		} else {
+			var msg = { action: 'ready' };
+			sock.send(JSON.stringify(msg));
+		}
 		
 		
 	} else if (data.action === "result") {
@@ -87,7 +96,6 @@ canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.in
 
 $("#play-btn").click(function() {
 	if (!($("#play-btn").attr("disabled") !== undefined)) {
-		alert("ndis");
 		var msg = { action: 'playgame' };
 		sock.send(JSON.stringify(msg));
 		
