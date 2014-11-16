@@ -1,6 +1,5 @@
-var sock = new SockJS("http://localhost:8888/echo");
-//var sock = new SockJS("http://93.175.18.108/echo");
-
+//var sock = new SockJS("http://localhost:8888/echo");
+var sock = new SockJS("http://93.175.18.108:8888/echo");
 
 sock.onopen = function() {
     var msg = {
@@ -17,6 +16,7 @@ sock.onmessage = function(e) {
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
+
         $("#enter").show();
 		var msg = { action: 'ready' };
 
@@ -29,9 +29,8 @@ sock.onmessage = function(e) {
 		//$("#main-content").html("<h2>Tasking</h2>");
 		var score0 = data.score0,
 			score1 = data.score1;
-		
+
 		for (i = 0; i < data.tasks0.length; i++) {
-		//	$("#main-content").append("<h2>" + data.tasks0[i] + "</h2>");
             var game = document.getElementById("gameField"); 
             var canvas = game.getContext("2d");
             game.width = window.innerWidth;  
@@ -42,10 +41,7 @@ sock.onmessage = function(e) {
             canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
             canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
             canvas.font = "bold 24px vendra";
-          /*  var img= new Image();
             
-            img.src = "/static/images/11.png";
-            canvas.drawImage(img,100,200);*/
             var x = Math.floor(Math.random() * ((window.innerWidth*0.47-50) - 70 + 1)) + 70;
             var y = Math.floor(Math.random() * (game.height*0.9-10 - 50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) + 50;
             var z = Math.floor(Math.random() * ((game.width-70) - (game.width-0.47*window.innerWidth+50) + 1)) + (game.width-0.47*window.innerWidth + 50);
@@ -68,6 +64,7 @@ sock.onmessage = function(e) {
 	//	$("#main-content").append("<h2>" + data.result + "</h2>");
 	}
 };
+
 
 sock.onclose = function() { 
     var msg = {

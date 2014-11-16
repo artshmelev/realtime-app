@@ -23,43 +23,6 @@ canvas {
     font-size: 40pt; 
 }
 
-#label1 {
-    margin: auto;
-    width: 250pt;
-    height: 50pt;
-    text-align: center;
-    padding-right:10px;
-    font-size: 24pt;  
-    margin-left: 20pt;  
-}
-
-#label2 {
-    margin: auto;
-    width: 250pt;
-    height: 50pt;
-    text-align: left;
-    padding-right:10px;
-    font-size: 24pt;
-}
-
-#label3 {
-    margin: auto;
-    width: 250pt;
-    height: 50pt;
-    text-align: left;
-    font-size: 24pt;
-    margin-left: 342pt;
-}
-
-#label4 {
-    margin: auto;
-    width: 250pt;
-    height: 50pt;
-    text-align: center;
-    font-size: 24pt;
-    margin-right: 20pt;
-}
-
 html {
     overflow: hidden;
 }

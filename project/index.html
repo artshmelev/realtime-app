@@ -15,23 +15,34 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body> 
-    <label id="label1" type="text" class="btn btn-default">
-      fsa
-    </label>
-    <label id="label2" type="text" class="btn btn-default"">
-        Score:
-    </label>
-    <label id="label3" type="text" class="btn btn-default">
-        Score:
-    </label>
-    <label id="label4" type="text" class="btn btn-default">
-       sad
-    </label>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+    
+        <div class="collapse navbar-collapse" id="my-navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="#">{{ escape(user) }}</a></li>
+            <li><a href="#">500</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">340</a></li>
+            <li><a href="#">User</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
     <canvas class="box" id="gameField"></canvas>
-
-
- 
+   
     <div id="main-content"></div>
 
     <div class="hid-obj" id="play-btn"><button class="btn btn-primary btn-xlarge">Play</button></div>

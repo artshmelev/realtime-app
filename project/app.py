@@ -31,10 +31,10 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.get_argument('username')
         password = self.get_argument('password')
-        #if username == 'test' and password == 'test' or \
-            #username == 'test1' and password == 'test1':
-        self.set_secure_cookie('user', username)
-        self.redirect('/')
+        if username == 'test' and password == 'test' or \
+            username == 'test1' and password == 'test1':
+            self.set_secure_cookie('user', username)
+            self.redirect('/')
         '''else:
             wrong = self.get_secure_cookie('wrong')
             if wrong == False or wrong == None:
