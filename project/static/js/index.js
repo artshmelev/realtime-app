@@ -15,6 +15,7 @@ sock.onmessage = function(e) {
 		var canvas = document.getElementById("gameField"); 
         var ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		$("#enter").hide();
 		$("#play-btn").show();
 		if ($("#play-btn").attr("disabled") !== undefined) {
 			$("#play-btn").removeAttr("disabled");
@@ -34,16 +35,25 @@ sock.onmessage = function(e) {
 		$("#score0").text(data.score0);
 		$("#score1").text(data.score1);
 
+        var game = document.getElementById("gameField"); 
+        var canvas = game.getContext("2d");
+        game.width = window.innerWidth;  
+        game.height = 0.8*window.innerHeight;
+        canvas.lineWidth = 5; 
+        canvas.strokeStyle = "black";           
+        canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
+        canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
+        canvas.font = "bold 24px vendra";
 		for (i = 0; i < data.tasks0.length; i++) {
-            var game = document.getElementById("gameField"); 
-            var canvas = game.getContext("2d");
-            game.width = window.innerWidth;  
-            game.height = 0.8*window.innerHeight;
+            //var game = document.getElementById("gameField"); 
+            //var canvas = game.getContext("2d");
+            //game.width = window.innerWidth;  
+            //game.height = 0.8*window.innerHeight;
 
             canvas.lineWidth = 5; 
             canvas.strokeStyle = "black";           
-            canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
-            canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
+            //canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
+            //canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
             canvas.font = "bold 24px vendra";
             
             var x = Math.floor(data.xs0[i] / 1366 * ((window.innerWidth*0.47-50) - 70 + 1)) + 70;
@@ -54,7 +64,7 @@ sock.onmessage = function(e) {
             canvas.fillStyle = "aqua";
             canvas.arc(x, y, 50, 0, 50);
             canvas.arc(z, t, 50, 0, 50);
-            canvas.fill();
+            //canvas.fill();
             canvas.fillStyle = "black";
             canvas.fillText(data.tasks0[i], x-25, y+5);
             canvas.fillText(data.tasks1[i], z-25, t+5);
