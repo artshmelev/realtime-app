@@ -80,20 +80,34 @@ class Task(object):
         self.y = random.randint(1, 768)
     
     def gen_simple(self):
-        a1 = random.randint(0, 50)
         a2 = self.get_rand_sign()
-        a3 = random.randint(0, 50)
+        a1 = random.randint(0, 50)
+        a3 = random.randint(0, 50)       
+              
         if a2 == '+':
             ans = str(a1 + a3)
         elif a2 == '-':
             ans = str(a1 - a3)
+        elif a2 == '*':
+            a1 = random.randint(0, 15)
+            a3 = random.randint(0, 10)
+            ans = str(a1 * a3)
+        elif a2 == '/':
+             while (a1 % a3 != 0):
+                a3 = random.randint(0, 50)  
+             ans = str(a1 / a3)
+            
         return (str(a1) + a2 + str(a3), ans)
-        
+ 
     
     def get_rand_sign(self):
-        r = random.randint(0, 1)
+        r = random.randint(0, 3)
         if r == 0:
             return '+'
-        else:
+        elif r == 1:
             return '-'
-    
+        elif r == 2:
+            return '*'
+        else:
+            return '/'
+        

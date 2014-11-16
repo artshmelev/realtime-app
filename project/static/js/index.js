@@ -1,5 +1,5 @@
-//var sock = new SockJS("http://localhost:8888/echo");
-var sock = new SockJS("http://93.175.18.108:8888/echo");
+var sock = new SockJS("http://localhost:8888/echo");
+//var sock = new SockJS("http://91.204.131.2:8888/echo");
 
 sock.onopen = function() {
     var msg = {
@@ -71,7 +71,7 @@ sock.onmessage = function(e) {
             canvas.beginPath();
             canvas.arc(z, t, 50, 0, 2*Math.PI, false);
             canvas.fill();
-            canvas.lineWidth = 3; 
+            canvas.lineWidth = 3;
             canvas.strokeStyle = "blue"; 
             canvas.stroke();
             

@@ -214,5 +214,5 @@ if __name__ == '__main__':
          (r'/login', LoginHandler),
          (r'/logout', LogoutHandler)] + EchoRouter.urls,
     **settings)
-    app.listen(8888, address='0.0.0.0')
+    app.listen(8888)
     ioloop.IOLoop.instance().start()
