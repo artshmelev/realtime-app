@@ -1,6 +1,7 @@
 import os, json
 from tornado import ioloop, web
 from sockjs.tornado import SockJSRouter, SockJSConnection
+import psycopg2
 
 from game_structs import *
 
@@ -21,7 +22,32 @@ class BaseHandler(web.RequestHandler):
 class IndexHandler(BaseHandler):
     @web.authenticated
     def get(self):
-        self.render('index.html', user=self.current_user)
+        username, id = self.get_current_user().split('|')
+        
+        db = psycopg2.connect("host='localhost' dbname='ra_db' user='test_user' password='sOmq3cPa'")
+        c = db.cursor()
+        query0 = '''SELECT username, rating FROM ra_users ORDER BY rating DESC
+                    LIMIT 10;'''
+        c.execute(query0)
+        data = c.fetchall()
+        
+        query1 = '''SELECT username FROM ra_users WHERE username = 
+                    '%(username)s';''' % {'username': username}
+        c.execute(query1)
+        data1 = c.fetchall()
+        if len(data1) == 0:
+            query2 = '''INSERT INTO ra_users(id, username, num_games, rating)
+                        VALUES ('%(id)s', '%(username)s', '%(num_games)s',
+                                '%(rating)s');''' % {'id': int(id),
+                                                     'username': username,
+                                                     'num_games': 0,
+                                                     'rating': 0}
+            c.execute(query2)
+            db.commit()
+        
+        c.close()
+        db.close()
+        self.render('index.html', user=username, data=data)
         
         
 class LoginHandler(BaseHandler):
@@ -32,17 +58,16 @@ class LoginHandler(BaseHandler):
         type = self.get_argument('type')
         username = self.get_argument('username')
         password = self.get_argument('password')
-        if type == 'form' and username == 'test' and password == 'test' or \
+        if type == 'form' and username == 'test' and password == '1234' or \
            type == 'vk':
-            self.set_secure_cookie('user', username)
+            self.set_secure_cookie('user', username + '|' + password)
             self.redirect('/')
-        '''else:
+        else:
             wrong = self.get_secure_cookie('wrong')
             if wrong == False or wrong == None:
                 wrong = 0
             self.set_secure_cookie('wrong', str(int(wrong) + 1))
-            self.write('Wrong username/password. Try again.')'''
-            
+            self.write('Wrong username/password. Try again.')
         
         
 class LogoutHandler(BaseHandler):
@@ -137,11 +162,35 @@ class EchoConnection(SockJSConnection):
                                        'score': str(g.score[0]) + '-' + \
                                                 str(g.score[1]),
                                        'win': win }))
-                pool.find_partner(player).channel.send(json.dumps({
+                partner = pool.find_partner(player)
+                partner.channel.send(json.dumps({
                                        'action': 'displayscore',
                                        'score': str(g.score[0]) + '-' + \
                                                 str(g.score[1]),
                                        'win': win^1 }))
+                
+                db = psycopg2.connect("host='localhost' dbname='ra_db' user='test_user' password='sOmq3cPa'")
+                c = db.cursor()
+                if win == 1:
+                    query0 = '''UPDATE ra_users SET num_games = num_games + 1,
+                                rating = rating + '%(diff)d' WHERE username = 
+                                '%(name)s';'''%{'diff': abs(g.score[0]-g.score[1]),
+                                                'name': player.name}
+                    query1 = '''UPDATE ra_users SET num_games = num_games + 1
+                                WHERE username='%(name)s';'''% {'name': partner.name}
+                else:
+                    query0 = '''UPDATE ra_users SET num_games = num_games + 1,
+                                rating = rating + '%(diff)d' WHERE username = 
+                                '%(name)s';'''%{'diff': abs(g.score[0]-g.score[1]),
+                                                'name': partner.name}
+                    query1 = '''UPDATE ra_users SET num_games = num_games + 1
+                                WHERE username='%(name)s';'''% {'name': player.name}          
+                c.execute(query0)
+                c.execute(query1)
+                db.commit()
+                c.close()
+                db.close()
+                
                 
         elif data['action'] == 'restart':
             pool.remove(pool.find_player(self))
