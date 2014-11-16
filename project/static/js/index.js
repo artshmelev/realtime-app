@@ -44,30 +44,31 @@ sock.onmessage = function(e) {
         canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
         canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
         canvas.font = "bold 24px vendra";
-		for (i = 0; i < data.tasks0.length; i++) {
-            //var game = document.getElementById("gameField"); 
-            //var canvas = game.getContext("2d");
-            //game.width = window.innerWidth;  
-            //game.height = 0.8*window.innerHeight;
-
-            canvas.lineWidth = 5; 
-            canvas.strokeStyle = "black";           
-            //canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
-            //canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
-            canvas.font = "bold 24px vendra";
-            
+		for (i = 0; i < data.tasks0.length; i++) {          
             var x = Math.floor(data.xs0[i] / 1366 * ((window.innerWidth*0.47-50) - 70 + 1)) + 70;
             var y = Math.floor(data.ys0[i] / 768 * (game.height*0.9-10 - 50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) + 50;
             var z = Math.floor(data.xs1[i] / 1366 * ((game.width-70) - (game.width-0.47*window.innerWidth+50) + 1)) + (game.width-0.47*window.innerWidth + 50);
             var t = Math.floor(data.ys1[i] / 768 * (game.height*0.9-10 -50 - game.height*0.05 - 50 + 1)) + Math.floor(game.height*0.05) +50;
            
+            canvas.beginPath();
+            canvas.arc(x, y, 50, 0, 2*Math.PI, false);
             canvas.fillStyle = "aqua";
-            canvas.arc(x, y, 50, 0, 50);
-            canvas.arc(z, t, 50, 0, 50);
-            //canvas.fill();
+            canvas.fill();
+            canvas.lineWidth = 3; 
+            canvas.strokeStyle = "blue"; 
+            canvas.stroke();
+            canvas.closePath();
+            canvas.beginPath();
+            canvas.arc(z, t, 50, 0, 2*Math.PI, false);
+            canvas.fill();
+            canvas.lineWidth = 3; 
+            canvas.strokeStyle = "blue"; 
+            canvas.stroke();
+            
             canvas.fillStyle = "black";
             canvas.fillText(data.tasks0[i], x-25, y+5);
             canvas.fillText(data.tasks1[i], z-25, t+5);
+            canvas.closePath();
 	    }
 		
 		if (data.score0 > 50 || data.score1 > 50) {
