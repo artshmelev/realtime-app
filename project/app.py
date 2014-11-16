@@ -31,15 +31,16 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.get_argument('username')
         password = self.get_argument('password')
-        if username == 'test' and password == 'test':
-            self.set_secure_cookie('user', username)
-            self.redirect('/')
-        else:
+        #if username == 'test' and password == 'test' or \
+            #username == 'test1' and password == 'test1':
+        self.set_secure_cookie('user', username)
+        self.redirect('/')
+        '''else:
             wrong = self.get_secure_cookie('wrong')
             if wrong == False or wrong == None:
                 wrong = 0
             self.set_secure_cookie('wrong', str(int(wrong) + 1))
-            self.write('Wrong username/password. Try again.')
+            self.write('Wrong username/password. Try again.')'''
             
         
         
@@ -125,5 +126,5 @@ if __name__ == '__main__':
          (r'/login', LoginHandler),
          (r'/logout', LogoutHandler)] + EchoRouter.urls,
     **settings)
-    app.listen(8888)
+    app.listen(8888, address='0.0.0.0')
     ioloop.IOLoop.instance().start()

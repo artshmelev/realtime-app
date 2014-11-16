@@ -15,9 +15,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body> 
+<body>
     <label id="label1" type="text" class="btn btn-default" aria-label="Left Align">
-      fsa
+      {{ escape(user) }}
     </label>
     <label id="label2" type="text" class="btn btn-default" aria-label="Left Align">
         asd
@@ -33,7 +33,9 @@
     <div id="main-content"></div>
 
     <div class="hid-obj" id="play-btn"><button class="btn btn-primary btn-xlarge">Play</button></div>
-    <div class="hid-obj" id="enter"><input  type="text" id="ans" size="35pt" style="width: 300px; height: 70px"> </div>
+
+
+    <div id="enter" class="hid-obj"><input  type="text" id="ans" size="35pt" style="width: 300px; height: 70px"></div>
 
     <script src="static/js/sockjs-0.3.4.min.js"></script>
     <script src="static/js/jquery-1.11.1.min.js"></script>
