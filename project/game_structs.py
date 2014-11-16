@@ -31,16 +31,19 @@ class GamePool(object):
             return (player, partner)
         
     def remove(self, player):
+        partner = self.find_partner(player)
         try:
             self.players.remove(player)
+            self.players.remove(partner)
         except ValueError:
             pass
         try:
             self.waiting_players.remove(player)
+            self.waiting_players.remove(partner)
         except ValueError:
             pass
         try:
-            self.games.remove(find_game(player))
+            self.games.remove(self.find_game(player))
         except ValueError:
             pass
         
@@ -55,6 +58,16 @@ class GamePool(object):
             if p.channel == channel:
                 return p
         return None
+    
+    def find_partner(self, player):
+        g = self.find_game(player)
+        if g.ps[1] != None and g.ps[0] == player:
+            return g.ps[1]
+        elif g.ps[0] != None and g.ps[1] == player:
+            return g.ps[0]
+        else:
+            return None
+            
     
     
 class Task(object):
@@ -80,5 +93,8 @@ class Task(object):
             return '+'
         else:
             return '-'
+        
+    def get_rand_coord(self):
+        pass
         
     

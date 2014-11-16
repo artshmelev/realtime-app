@@ -12,7 +12,13 @@ sock.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	
 	if (data.action === "startpage") {
+		var canvas = document.getElementById("gameField"); 
+        var ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		$("#play-btn").show();
+		if ($("#play-btn").attr("disabled") !== undefined) {
+			$("#play-btn").removeAttr("disabled");
+		}
 		
 	} else if (data.action === "startgame") {
 		$("#play-btn").hide();
@@ -23,10 +29,8 @@ sock.onmessage = function(e) {
 		sock.send(JSON.stringify(msg));
 		
 	} else if (data.action === "waiting") {
-		//$("#main-content").html("<h2>Please, wait partner</h2>");
 		
 	} else if (data.action === "tasking") {
-		//$("#main-content").html("<h2>Tasking</h2>");
 		var score0 = data.score0,
 			score1 = data.score1;
 
@@ -61,7 +65,6 @@ sock.onmessage = function(e) {
 		
 		
 	} else if (data.action === "result") {
-	//	$("#main-content").append("<h2>" + data.result + "</h2>");
 	}
 };
 
@@ -82,9 +85,14 @@ canvas.strokeStyle = "black";
 canvas.strokeRect(20, game.height*0.05, window.innerWidth*0.47, game.height*0.9-10);
 canvas.strokeRect(game.width-0.47*window.innerWidth, game.height*0.05, window.innerWidth*0.47-20, game.height*0.9-10);
 
-$("button").click(function() {
-	var msg = { action: 'playgame' };
-	sock.send(JSON.stringify(msg));
+$("#play-btn").click(function() {
+	if (!($("#play-btn").attr("disabled") !== undefined)) {
+		alert("ndis");
+		var msg = { action: 'playgame' };
+		sock.send(JSON.stringify(msg));
+		
+		$("#play-btn").attr("disabled", true);
+	}
 });
 
 $("#ans").keypress(function(e) {

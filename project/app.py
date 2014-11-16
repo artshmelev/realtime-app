@@ -31,10 +31,10 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.get_argument('username')
         password = self.get_argument('password')
-        if username == 'test' and password == 'test' or \
-            username == 'test1' and password == 'test1':
-            self.set_secure_cookie('user', username)
-            self.redirect('/')
+        #if username == 'test' and password == 'test' or \
+            #username == 'test1' and password == 'test1':
+        self.set_secure_cookie('user', username)
+        self.redirect('/')
         '''else:
             wrong = self.get_secure_cookie('wrong')
             if wrong == False or wrong == None:
@@ -78,6 +78,9 @@ class EchoConnection(SockJSConnection):
                 
         elif data['action'] == 'ready':
             g = pool.find_game(pool.find_player(self))
+            if g == None:
+                self.send(json.dumps({'action': 'startpage'}))
+                return
             
             if len(g.tasks0) < 3:
                 g.tasks0.append(Task())
@@ -114,7 +117,11 @@ class EchoConnection(SockJSConnection):
         
     def on_close(self):
         print 'close sock'
-        pool.remove(pool.find_player(self))
+        player = pool.find_player(self)
+        partner = pool.find_partner(player)
+        if (partner != None):
+            partner.channel.send(json.dumps({'action': 'startpage'}))
+        pool.remove(player)
         self.clients.remove(self)
 
 
