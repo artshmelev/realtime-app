@@ -19,11 +19,11 @@ class MyWebSocketHandler(websocket.WebSocketHandler):
         print "open MyWebSocketHandler"
         s = json.dumps({'type': 0, 'list': worker.exec_ls()})
         self.write_message(s)
-        
+
     def on_message(self, message):
         data = json.loads(message)
         print 'on_message', data['target'], data['id']
-        
+
         if data['id'] == -1:
             worker.exec_write(data['target'], data['text'])
         else:
@@ -35,19 +35,19 @@ class MyWebSocketHandler(websocket.WebSocketHandler):
                 s = json.dumps({'type': 1,
                                 'id': data['id'],
                                 'text': worker.exec_cat(data['target'])})
-                
-            self.write_message(s)
-        
 
-class IndexHandler(web.RequestHandler):        
+            self.write_message(s)
+
+
+class IndexHandler(web.RequestHandler):
     def get(self):
         self.render('index.html')
-        
+
 
 def main():
     global worker
     worker = SSHWorker(host, user, secret, port)
-    
+
     app = web.Application([
         (r'/', IndexHandler),
         (r'/ws', MyWebSocketHandler)
@@ -58,7 +58,7 @@ def main():
     finally:
         print 'OK'
         worker.close()
-        
+
 
 if __name__ == '__main__':
     main()
